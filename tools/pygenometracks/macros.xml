@@ -1,12 +1,13 @@
 <macros>
     <token name="@THREADS@">\${GALAXY_SLOTS:-4}</token>
+    <token name="@WRAPPER_VERSION@">3.1</token>
     <xml name="requirements">
         <requirements>
-            <requirement type="package" version="3.0">pygenometracks</requirement>
-            <requirement type="package" version="3.6">python</requirement>
+            <requirement type="package" version="3.1">pygenometracks</requirement>
+            <!--<requirement type="package" version="3.7">python</requirement>-->
             <yield />
         </requirements>
-        <version_command>@BINARY@ --version</version_command>
+        <version_command><![CDATA[@BINARY@ --version | tail -n 1 ]]></version_command>
     </xml>
 
     <xml name="citations">
@@ -187,6 +188,9 @@ Immunobiology and Epigenetics`_.
 
     <xml name="track_input_bed_macro">
         <param name="track_input_bed" type="data" format="bed" label="Track file bed format" multiple='True'/>
+    </xml>
+    <xml name="track_input_bed_gtf_macro">
+        <param name="track_input_bed" type="data" format="bed,gtf" label="Track file bed or gtf format" multiple='True'/>
     </xml>
     <xml name="track_input_bed_single_macro">
         <param name="track_input_bed_single" type="data" format="bed" label="Track file bed format"/>
@@ -369,6 +373,7 @@ Immunobiology and Epigenetics`_.
     </xml>
     <xml name="color_coverage_macro">
         <param name="color" type="color" value="#000000" label="Color of track" optional="True" />
+        <param name="alpha" type="float" value="1" min="0" max="1" label="level of transparency (alpha)" help="1 is opaque and 0 is totally transparent"/>
         <conditional name="color_negative">
             <param name="color_negative_select" type="select" label="Use a different color for negative values">
                 <option value="no" selected="True">No</option>
