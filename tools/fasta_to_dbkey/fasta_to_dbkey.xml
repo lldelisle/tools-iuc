@@ -1,5 +1,5 @@
-<tool id="fasta_to_dbkey" name="Get dbkey from cached genome" version="@TOOL_VERSION@+galaxy@VERSION_SUFFIX@" profile="20.01" license="MIT">
-    <description></description>
+<tool id="fasta_to_dbkey" name="Get dbkey parameter value" version="@TOOL_VERSION@+galaxy@VERSION_SUFFIX@" profile="20.01" tool_type="expression" license="MIT">
+    <description>from cached genome</description>
     <macros>
         <token name="@TOOL_VERSION@">0.1.0</token>
         <token name="@VERSION_SUFFIX@">0</token>
@@ -15,17 +15,18 @@
     <xrefs>
         <xref type="bio.tools"></xref>
     </xrefs>
-    <command detect_errors="exit_code"><![CDATA[
-    
-    echo "$all_fasta_value.fields.dbkey" > '$output'
-]]></command>
+    <expression type="ecma5.1">
+{
+    return {'output': $job.all_fasta_value};
+}
+    </expression>
     <inputs>
         <param name="all_fasta_value" type="select" label="Cached genome">
             <options from_data_table="all_fasta"/>
         </param>
     </inputs>
     <outputs>
-        <data name="output" format="txt" label="dbkey of ${all_fasta_value}" />
+        <output type="text" name="text_param" from="output" />
     </outputs>
     <tests>
         <test expect_num_outputs="1">
